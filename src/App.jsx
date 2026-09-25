@@ -20,7 +20,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/analyze",
+        `${import.meta.env.VITE_API_URL}/analyze`,
         {
           method: "POST",
           headers: {
@@ -216,11 +216,29 @@ function App() {
               >
                 <h3>Analysis Result</h3>
 
-                <p>
-                  <strong>Risk Level:</strong>{" "}
-                  {result.risk_level || "Under Review"}
-                </p>
+                <div className="risk-summary">
+  <div>
+    <span className="result-label">Risk Level</span>
+    <span
+      className={`risk-badge ${
+        result.risk_level?.toLowerCase().includes("high")
+          ? "high"
+          : result.risk_level?.toLowerCase().includes("medium")
+          ? "medium"
+          : "low"
+      }`}
+    >
+      {result.risk_level || "Under Review"}
+    </span>
+  </div>
 
+  {typeof result.risk_score === "number" && (
+    <div className="risk-score">
+      <span className="result-label">Risk Score</span>
+      <strong>{result.risk_score}/100</strong>
+    </div>
+  )}
+</div>
                 <p>
                   {result.analysis ||
                     "No analysis details returned."}

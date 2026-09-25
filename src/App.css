@@ -463,3 +463,170 @@ footer p,
     padding: 18px;
   }
 }
+/* Risk Result */
+.risk-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 18px 0;
+  padding: 16px;
+  background: #111d2e;
+  border: 1px solid #2b3b52;
+  border-radius: 10px;
+}
+
+.result-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #8493a9;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.risk-badge.high {
+  color: #ffb4b4;
+  background: #4a2025;
+  border: 1px solid #74343b;
+}
+
+.risk-badge.medium {
+  color: #f4d28c;
+  background: #41331c;
+  border: 1px solid #6d5429;
+}
+
+.risk-badge.low {
+  color: #8de6cf;
+  background: #173b35;
+  border: 1px solid #285f53;
+}
+
+.risk-score {
+  text-align: right;
+}
+
+.risk-score strong {
+  color: #52e0bd;
+  font-size: 22px;
+  font-family: "Manrope", sans-serif;
+}
+
+/* Better result headings */
+.demo-result h4 {
+  margin: 22px 0 10px;
+  color: #52e0bd;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.demo-result ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.demo-result li {
+  margin: 8px 0;
+  color: #c2cede;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Result animation */
+.demo-result {
+  animation: resultAppear 0.3s ease;
+}
+
+@keyframes resultAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 500px) {
+  .risk-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .risk-score {
+    text-align: left;
+  }
+}
+/* Warning Signs & Safety Tips */
+.demo-result h4 {
+  margin: 22px 0 12px;
+  color: #52e0bd;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.demo-result ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-result li {
+  position: relative;
+  margin-bottom: 9px;
+  padding: 11px 13px 11px 34px;
+  border: 1px solid #29394f;
+  border-radius: 8px;
+  background: #111d2d;
+  color: #c5d0df;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.demo-result li::before {
+  content: "✓";
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  color: #52e0bd;
+  font-weight: 800;
+}
+
+.demo-result h4:first-of-type + ul li::before {
+  content: "⚠";
+  color: #e8bd70;
+}
+
+/* Important warning */
+.demo-result p strong {
+  color: #f1c77d;
+}
+
+/* Try another message button */
+.demo-result .clear-button {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: 1px solid #34445c;
+  border-radius: 7px;
+  background: #152235;
+}
+
+.demo-result .clear-button:hover {
+  border-color: #52e0bd;
+  background: #18302f;
+}
