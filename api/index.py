@@ -8,12 +8,11 @@ class ScanRequest(BaseModel):
     message: str
 
 
-@app.get("/")
+@app.get("/api")
 def home():
     return {"message": "ScamShield AI Backend is running!"}
 
-
-@app.post("/analyze")
+@app.post("/api/analyze")
 def analyze_message(request: ScanRequest):
     message = request.message.strip()
 
