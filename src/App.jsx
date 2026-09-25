@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import "./App.css";
 
@@ -19,25 +18,31 @@ function App() {
     setResult(null);
 
     try {
-      const response = await fetch(
-     "/api/analyze"
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: message.trim(),
-          }),
-        }
-      );
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: message.trim(),
+        }),
+      });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+
+      let data;
+
+      if (contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(
+          text || `Server returned status ${response.status}`
+        );
+      }
 
       if (!response.ok) {
-        throw new Error(
-          data.detail || "Backend request failed"
-        );
+        throw new Error(data.detail || "Backend request failed");
       }
 
       if (data.error) {
@@ -48,7 +53,7 @@ function App() {
     } catch (err) {
       setError(
         err.message === "Failed to fetch"
-          ? "Cannot connect to backend. Please make sure your Python server is running."
+          ? "Cannot connect to the backend. Please try again."
           : err.message || "Something went wrong."
       );
     } finally {
@@ -217,28 +222,40 @@ function App() {
                 <h3>Analysis Result</h3>
 
                 <div className="risk-summary">
-  <div>
-    <span className="result-label">Risk Level</span>
-    <span
-      className={`risk-badge ${
-        result.risk_level?.toLowerCase().includes("high")
-          ? "high"
-          : result.risk_level?.toLowerCase().includes("medium")
-          ? "medium"
-          : "low"
-      }`}
-    >
-      {result.risk_level || "Under Review"}
-    </span>
-  </div>
+                  <div>
+                    <span className="result-label">
+                      Risk Level
+                    </span>
 
-  {typeof result.risk_score === "number" && (
-    <div className="risk-score">
-      <span className="result-label">Risk Score</span>
-      <strong>{result.risk_score}/100</strong>
-    </div>
-  )}
-</div>
+                    <span
+                      className={`risk-badge ${
+                        result.risk_level
+                          ?.toLowerCase()
+                          .includes("high")
+                          ? "high"
+                          : result.risk_level
+                              ?.toLowerCase()
+                              .includes("medium")
+                          ? "medium"
+                          : "low"
+                      }`}
+                    >
+                      {result.risk_level || "Under Review"}
+                    </span>
+                  </div>
+
+                  {typeof result.risk_score === "number" && (
+                    <div className="risk-score">
+                      <span className="result-label">
+                        Risk Score
+                      </span>
+                      <strong>
+                        {result.risk_score}/100
+                      </strong>
+                    </div>
+                  )}
+                </div>
+
                 <p>
                   {result.analysis ||
                     "No analysis details returned."}
@@ -292,8 +309,9 @@ function App() {
             )}
 
             <p className="privacy-note">
-              🔒 Your message is sent to your local backend.
-              Real AI analysis is not connected yet.
+              🔒 Your message is analyzed by the ScamShield
+              backend. This is a rule-based educational
+              prototype and not a verified fraud detector.
             </p>
           </div>
         </section>
